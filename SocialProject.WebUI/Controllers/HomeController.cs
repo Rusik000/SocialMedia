@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialProject.Business.Abstract;
+using SocialProject.WebUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,13 @@ namespace SocialProject.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        private IUserService _userService;
+
+        public HomeController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -23,7 +32,6 @@ namespace SocialProject.WebUI.Controllers
         {
             return View();
         }
-
 
         public IActionResult Group()
         {
@@ -102,9 +110,28 @@ namespace SocialProject.WebUI.Controllers
 
         }
 
+        [HttpGet]
         public IActionResult Password()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Password(ChangePasswordViewModel model)
+        {
+            var users = _userService.GetAll();
+            foreach (var user in users)
+            {
+                if (user.Password == model.CurrentPassword)
+                {
+                    if (model.NewPassword == model.ConfirmNewPassword)
+                    {
+                        user.Password = model.NewPassword;
+                        return RedirectToAction("LogIn", "Account");
+                    }
+                }
+            }
+            return View(model);
 
         }
 

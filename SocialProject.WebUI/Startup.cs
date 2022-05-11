@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SocialProject.Business.Abstract;
+using SocialProject.Business.Concrete;
+using SocialProject.DataAccess.Abstract;
+using SocialProject.DataAccess.Concrete;
 using SocialProject.WebUI.Entities;
 using System;
 using System.Collections.Generic;
@@ -25,14 +29,19 @@ namespace SocialProject.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IUserService,UserManager>();
+            services.AddScoped<IUserDal, EfUserDal>();
+
             services.AddRazorPages();
             services.AddDbContext<CustomIdentityDbContext>(
                 options => options
-                .UseSqlServer(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=Northwind;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+                .UseSqlServer(@"Data Source=(localdb)\ProjectModels;Initial Catalog=SocialDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             services.AddIdentity<CustomIdentityUser, CustomIdentityRole>()
                 .AddEntityFrameworkStores<CustomIdentityDbContext>()
                 .AddDefaultTokenProviders();
+
+            
 
         }
 
@@ -56,6 +65,8 @@ namespace SocialProject.WebUI
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+           
 
             app.UseEndpoints(endpoints =>
             {

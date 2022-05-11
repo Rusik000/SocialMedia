@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SocialProject.Business.Abstract;
+using SocialProject.Social.Entities.Concrete;
 using SocialProject.WebUI.Entities;
 using SocialProject.WebUI.Models;
 using System;
@@ -12,22 +14,22 @@ namespace SocialProject.WebUI.Controllers
 {
     public class AccountController : Controller
     {
-
-
         private UserManager<CustomIdentityUser> _userManager;
         private RoleManager<CustomIdentityRole> _roleManager;
         private SignInManager<CustomIdentityUser> _signInManager;
+        private IUserService _userService;
 
-        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager)
+        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         public IActionResult LogIn()
         {
-            
+
             return View();
         }
 
@@ -41,7 +43,14 @@ namespace SocialProject.WebUI.Controllers
                     loginViewModel.Password, loginViewModel.RememberMe, false).Result;
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var users = _userService.GetAll();
+                    foreach (var user in users)
+                    {
+                        if (user.Username == loginViewModel.Username && user.Password == loginViewModel.Password)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
                 }
                 ModelState.AddModelError("", "Invalid Login");
             }
@@ -50,7 +59,7 @@ namespace SocialProject.WebUI.Controllers
 
         public IActionResult Register()
         {
-            
+
             return View();
         }
 
@@ -83,6 +92,19 @@ namespace SocialProject.WebUI.Controllers
                         }
                     }
                     _userManager.AddToRoleAsync(user, "Admin").Wait();
+                    User newUser = new User
+                    {
+                        Name = registerViewModel.Firstname,
+                        Surname = registerViewModel.Lastname,
+                        Email = registerViewModel.Email,
+                        Username = registerViewModel.Username,
+                        Password = registerViewModel.Password,
+                        Age = 21,
+                        ImagePath = "",
+                        Phonenumber = "0555280008"
+                    };
+
+                    _userService.Add(newUser);
                     return RedirectToAction("LogIn");
                 }
             }
