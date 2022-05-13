@@ -32,6 +32,26 @@ namespace SocialProject.WebUI
             services.AddScoped<IUserService,UserManager>();
             services.AddScoped<IUserDal, EfUserDal>();
 
+            services.AddScoped<IChatService, ChatManager>();
+            services.AddScoped<IChatDal, EfChatDal>();
+
+            services.AddScoped<ICommentService, CommentManager>();
+            services.AddScoped<ICommentDal, EfCommentDal>();
+
+            services.AddScoped<IGroupService, GroupManager>();
+            services.AddScoped<IGroupDal, EfGroupDal>();
+
+            services.AddScoped<INotificationService, NotificationManager>();
+            services.AddScoped<INotificationDal, EfNotificationDal>();
+
+            services.AddScoped<IPostService, PostManager>();
+            services.AddScoped<IPostDal, EfPostDal>();
+
+
+            services.AddScoped<IStoryService, StoryManager>();
+            services.AddScoped<IStoryDal, EfStoryDal>();
+
+
             services.AddRazorPages();
             services.AddDbContext<CustomIdentityDbContext>(
                 options => options
@@ -65,8 +85,6 @@ namespace SocialProject.WebUI
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-           
 
             app.UseEndpoints(endpoints =>
             {

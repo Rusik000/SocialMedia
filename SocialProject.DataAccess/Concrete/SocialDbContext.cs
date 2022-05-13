@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SocialProject.DataAccess.Concrete
 {
-    public  class SocialDbContext:DbContext
+    public class SocialDbContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -16,17 +16,17 @@ namespace SocialProject.DataAccess.Concrete
 
         public DbSet<User> Users { get; set; }
 
-        // public DbSet<Post> Posts { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
-        // public DbSet<Comment> Comments { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
-        // public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Group> Groups { get; set; }
 
-        // public DbSet<Chat> Chats { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
-        //  public DbSet<Group> Groups { get; set; }
+        public DbSet<Chat> Chats { get; set; }
 
-        //  public DbSet<Storie> Stories { get; set; }
+        public DbSet<Story> Stories { get; set; }
 
 
     }

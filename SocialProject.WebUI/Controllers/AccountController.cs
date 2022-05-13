@@ -17,14 +17,12 @@ namespace SocialProject.WebUI.Controllers
         private UserManager<CustomIdentityUser> _userManager;
         private RoleManager<CustomIdentityRole> _roleManager;
         private SignInManager<CustomIdentityUser> _signInManager;
-        private IUserService _userService;
 
-        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager, IUserService userService)
+        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
-            _userService = userService;
         }
 
         public IActionResult LogIn()
@@ -43,14 +41,7 @@ namespace SocialProject.WebUI.Controllers
                     loginViewModel.Password, loginViewModel.RememberMe, false).Result;
                 if (result.Succeeded)
                 {
-                    var users = _userService.GetAll();
-                    foreach (var user in users)
-                    {
-                        if (user.Username == loginViewModel.Username && user.Password == loginViewModel.Password)
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Invalid Login");
             }
@@ -92,19 +83,6 @@ namespace SocialProject.WebUI.Controllers
                         }
                     }
                     _userManager.AddToRoleAsync(user, "Admin").Wait();
-                    User newUser = new User
-                    {
-                        Name = registerViewModel.Firstname,
-                        Surname = registerViewModel.Lastname,
-                        Email = registerViewModel.Email,
-                        Username = registerViewModel.Username,
-                        Password = registerViewModel.Password,
-                        Age = 21,
-                        ImagePath = "",
-                        Phonenumber = "0555280008"
-                    };
-
-                    _userService.Add(newUser);
                     return RedirectToAction("LogIn");
                 }
             }
