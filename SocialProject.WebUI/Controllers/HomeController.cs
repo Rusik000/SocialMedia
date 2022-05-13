@@ -110,30 +110,7 @@ namespace SocialProject.WebUI.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult Password()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Password(ChangePasswordViewModel model)
-        {
-            var users = _userService.GetAll();
-            foreach (var user in users)
-            {
-                if (user.Password == model.CurrentPassword)
-                {
-                    if (model.NewPassword == model.ConfirmNewPassword)
-                    {
-                        user.Password = model.NewPassword;
-                        return RedirectToAction("LogIn", "Account");
-                    }
-                }
-            }
-            return View(model);
-
-        }
+       
 
         public IActionResult Notification()
         {

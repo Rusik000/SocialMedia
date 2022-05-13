@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SocialProject.Business.Abstract;
 using SocialProject.Social.Entities.Concrete;
@@ -7,6 +8,7 @@ using SocialProject.WebUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 
@@ -17,12 +19,14 @@ namespace SocialProject.WebUI.Controllers
         private UserManager<CustomIdentityUser> _userManager;
         private RoleManager<CustomIdentityRole> _roleManager;
         private SignInManager<CustomIdentityUser> _signInManager;
+        private IHttpContextAccessor _httpContext;
 
-        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager)
+        public AccountController(UserManager<CustomIdentityUser> userManager, RoleManager<CustomIdentityRole> roleManager, SignInManager<CustomIdentityUser> signInManager, IHttpContextAccessor httpContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _httpContext = httpContext;
         }
 
         public IActionResult LogIn()
@@ -94,6 +98,30 @@ namespace SocialProject.WebUI.Controllers
         {
             _signInManager.SignOutAsync().Wait();
             return RedirectToAction("LogIn");
+        }
+
+        [HttpGet]
+        public IActionResult Password()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Password(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                var result= await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    ModelState.Clear();
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View(model);
+
         }
     }
 }
