@@ -16,5 +16,6 @@ namespace SocialProject.WebUI.Models
         [DataType(DataType.Password)]
         public string ConfirmNewPassword { get; set; }
 
+
     }
 }

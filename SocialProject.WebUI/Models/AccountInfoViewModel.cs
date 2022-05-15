@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace SocialProject.WebUI.Entities
+namespace SocialProject.WebUI.Models
 {
-    public class CustomIdentityUser:IdentityUser
+    public class AccountInfoViewModel
     {
-        public string ImageUrl { get; set; }
+        public IFormFile File { get; set; }
+        public string ImagePath { get; set; }
 
         public string Firstname { get; set; }
-
         public string Lastname { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+
         public string Country { get; set; }
 
         public string Address { get; set; }
@@ -21,8 +19,5 @@ namespace SocialProject.WebUI.Entities
         public string City { get; set; }
 
         public string PostCode { get; set; }
-
-
-
     }
 }

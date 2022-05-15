@@ -67,7 +67,9 @@ namespace SocialProject.WebUI.Controllers
                 CustomIdentityUser user = new CustomIdentityUser
                 {
                     UserName = registerViewModel.Username,
-                    Email = registerViewModel.Email
+                    Email = registerViewModel.Email,
+                    Firstname = registerViewModel.Firstname,
+                    Lastname = registerViewModel.Lastname
                 };
 
                 IdentityResult result = _userManager.CreateAsync(user, registerViewModel.Password).Result;
@@ -113,7 +115,7 @@ namespace SocialProject.WebUI.Controllers
             {
                 var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = await _userManager.FindByIdAsync(userId);
-                var result= await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
                     ModelState.Clear();
