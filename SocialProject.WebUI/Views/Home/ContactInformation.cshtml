@@ -1,9 +1,9 @@
-﻿@{
+﻿@model SocialProject.WebUI.Models.SavedAddressViewModel
+
+@{
     Layout = "~/Views/Shared/_Layout2.cshtml";
     ViewBag.Title = "Contact Info";
 }
-
-
 
 <div class="main-content bg-lightblue theme-dark-bg right-chat-active">
 
@@ -18,21 +18,21 @@
                     <div class="card-body p-lg-5 p-4 w-100 border-0 mb-0">
 
 
-                        <form action="#">
+                        <form asp-controller="Home" asp-action="ContactInformation" method="post">
 
 
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
                                     <div class="form-group">
                                         <label class="mont-font fw-600 font-xsss">Country</label>
-                                        <input type="text" name="comment-name" class="form-control">
+                                        <input asp-for="Country" type="text"  class="form-control" placeholder="Country">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 mb-3">
                                     <div class="form-group">
                                         <label class="mont-font fw-600 font-xsss">City</label>
-                                        <input type="text" name="comment-name" class="form-control">
+                                        <input asp-for="City" type="text"  class="form-control" placeholder="City">
                                     </div>
                                 </div>
                             </div>
@@ -41,21 +41,19 @@
                                 <div class="col-lg-6 mb-3">
                                     <div class="form-group">
                                         <label class="mont-font fw-600 font-xsss">Address</label>
-                                        <input type="text" name="comment-name" class="form-control">
+                                        <input asp-for="Address" type="text"  class="form-control" placeholder="Address">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 mb-3">
                                     <div class="form-group">
-                                        <label class="mont-font fw-600 font-xsss">Pincode</label>
-                                        <input type="text" name="comment-name" class="form-control">
+                                        <label class="mont-font fw-600 font-xsss">Postcode</label>
+                                        <input asp-for="Postcode" type="text"  class="form-control" placeholder="Postcode">
                                     </div>
                                 </div>
-
-                           
                             </div>
                             <div class="col-lg-12 mb-0 mt-2 ps-0">
-                                <a href="#" class="bg-current text-center text-white font-xsss fw-600 p-3 w175 rounded-3 d-inline-block">Save</a>
+                                <input value="Save" type="submit"  class="bg-current text-center text-white font-xsss fw-600 p-3 w175 rounded-3 d-inline-block"/>
                             </div>
                         </form>
                     </div>

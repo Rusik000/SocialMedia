@@ -103,8 +103,7 @@ namespace SocialProject.WebUI.Controllers
 
         public async Task<IActionResult> AccountInformation()
         {
-            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await GetUser();
 
             var model = new AccountInfoViewModel
             {
@@ -125,8 +124,9 @@ namespace SocialProject.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> AccountInformation(AccountInfoViewModel model)
         {
-            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdAsync(userId);
+
+            var user = await GetUser();
+
             if (model.File != null)
             {
                 var Helper = new ImageHelper(_webhost);
@@ -150,25 +150,70 @@ namespace SocialProject.WebUI.Controllers
         }
 
 
-        public IActionResult ContactInformation()
+        public async Task<IActionResult> ContactInformation()
         {
-            return View();
+            var user = await GetUser();
 
+            var model = new SavedAddressViewModel
+            {
+                Country = user.Country,
+                City = user.City,
+                Address = user.Address,
+                Postcode = user.PostCode
+            };
+
+            return View(model);
         }
 
-        public IActionResult Social()
+        [HttpPost]
+        public async Task<IActionResult> ContactInformation(SavedAddressViewModel model)
         {
-            return View();
+            var user = await GetUser();
 
+            user.Country = model.Country;
+            user.City = model.City;
+            user.Address = model.Address;
+            user.PostCode = model.Postcode;
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("ContactInformation");
+        }
+
+
+        public async Task<IActionResult> Social()
+        {
+            var user = await GetUser();
+            var model = new SocialAccountViewModel
+            {
+                Facebook = user.Facebook,
+                Instagram = user.Instagram,
+                Twitter = user.Twitter,
+                Google = user.Google,
+                Github = user.Github,
+                Linkedin = user.Linkedin
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Social(SocialAccountViewModel model)
+        {
+            var user = await GetUser();
+
+            user.Facebook = model.Facebook;
+            user.Instagram = model.Instagram;
+            user.Twitter = model.Twitter;
+            user.Linkedin = model.Linkedin;
+            user.Google = model.Google;
+            user.Github = model.Github;
+            await _userManager.UpdateAsync(user);
+
+            return RedirectToAction("Social");
         }
 
         public IActionResult Payment()
         {
             return View();
-
         }
-
-
 
         public IActionResult Notification()
         {
@@ -200,6 +245,19 @@ namespace SocialProject.WebUI.Controllers
         {
             return View();
         }
+
+        //methods
+
+
+        public async Task<CustomIdentityUser> GetUser()
+        {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            return user;
+        }
+
+
+
 
 
     }
