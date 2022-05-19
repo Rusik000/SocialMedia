@@ -10,7 +10,7 @@ namespace SocialProject.Social.Entities.Concrete
         public int NotificationId { get; set; }
 
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public string Message { get; set; }
         public DateTime CurrentTime { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using SocialProject.Social.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace SocialProject.WebUI.Entities
 
         public string Google { get; set; }
 
-
+        public ICollection<Post> Posts { get; set; }
 
 
 

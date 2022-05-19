@@ -8,7 +8,7 @@ namespace SocialProject.Social.Entities.Concrete
     public class Story : IEntity
     {
         public int StoryId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public string ImagePath { get; set; }
         public string BackgroundImagePath { get; set; }

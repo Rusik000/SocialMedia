@@ -18,14 +18,13 @@ namespace SocialProject.WebUI.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private IUserService _userService;
+       
         private IHttpContextAccessor _httpContext;
         private UserManager<CustomIdentityUser> _userManager;
         private readonly IWebHostEnvironment _webhost;
 
-        public HomeController(IUserService userService, IHttpContextAccessor httpContext, UserManager<CustomIdentityUser> userManager, IWebHostEnvironment webhost)
+        public HomeController(IHttpContextAccessor httpContext, UserManager<CustomIdentityUser> userManager, IWebHostEnvironment webhost)
         {
-            _userService = userService;
             _httpContext = httpContext;
             _userManager = userManager;
             _webhost = webhost;
@@ -52,9 +51,19 @@ namespace SocialProject.WebUI.Controllers
         {
             return View();
         }
-        public IActionResult UserPage()
+        public  async Task<IActionResult> UserPage()
         {
-            return View();
+            var user = await GetUser();
+
+            var model = new UserPageViewModel
+            {
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                EmailAddress = user.Email,
+                ProfileImage = user.ImageUrl
+            };
+
+            return View(model);
         }
 
         public IActionResult Email()
@@ -246,9 +255,8 @@ namespace SocialProject.WebUI.Controllers
             return View();
         }
 
+
         //methods
-
-
         public async Task<CustomIdentityUser> GetUser()
         {
             var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);

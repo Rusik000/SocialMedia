@@ -1,11 +1,11 @@
-﻿
+﻿@model SocialProject.WebUI.Models.CreatePostViewModel 
+
+
+
 @{
     Layout = "~/Views/Shared/_Layout2.cshtml";
     ViewBag.Title = "Home Page";
 }
-
-
-
 
 
 <div class="main-content right-chat-active">
@@ -38,6 +38,7 @@
                     </div>
                 </div>
             </div>
+
 
             <!-- loader wrapper -->
             <div class="row feed-body">
@@ -163,11 +164,11 @@
                         <div class="card-body d-flex p-0 mt-0">
                             <a href="#" class="d-flex align-items-center font-xssss fw-600 ls-1 text-grey-700 text-dark pe-4">
                                 <i class="font-md text-danger feather-video me-2"></i>
-                                <span class="d-none-xs">Live Video</span>
+                                <span class="d-none-xs">Video</span>
                             </a>
                             <a href="#" class="d-flex align-items-center font-xssss fw-600 ls-1 text-grey-700 text-dark pe-4">
                                 <i class="font-md text-success feather-image me-2"></i>
-                                <span class="d-none-xs">Photo/Video</span>
+                                <span class="d-none-xs">Photo</span>
                             </a>
                             <a href="#" class="d-flex align-items-center font-xssss fw-600 ls-1 text-grey-700 text-dark pe-4">
                                 <i class="font-md text-warning feather-camera me-2"></i>
@@ -204,13 +205,10 @@
                                 <img src="~/images/user-7.png" alt="image" class="shadow-sm rounded-circle w45">
                             </figure>
                             <h4 class="fw-700 text-grey-900 font-xssss mt-1">
-                                
-                                
                                 Mustafayev Ruslan
                                 <span class="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500">5 hour ago</span>
-                            
-                            
                             </h4>
+
                             <a href="#" class="ms-auto" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i>
                             
@@ -236,6 +234,9 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div class="card-body p-0 me-lg-5">
                             <p class="fw-500 text-grey-500 lh-26 font-xssss w-100">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus <a href="#" class="fw-600 text-primary ms-2">See more</a></p>
                         </div>
@@ -303,6 +304,7 @@
                                 <input type="text" value="https://socia.be/1rGxjoJKVF0" class="bg-grey text-grey-500 font-xssss border-0 lh-32 p-2 font-xssss fw-600 rounded-3 w-100 theme-dark-bg">
                             </div>
                         </div>
+
                     </div>
 
                     <div class="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
@@ -335,6 +337,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="card-body p-0 me-lg-5">
                             <p class="fw-500 text-grey-500 lh-26 font-xssss w-100">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus <a href="#" class="fw-600 text-primary ms-2">See more</a></p>
                         </div>
@@ -474,109 +477,6 @@
                         </div>
                     </div>
 
-                    <div class="card w-100 shadow-none bg-transparent bg-transparent-card border-0 p-0 mb-0">
-                        <div class="owl-carousel category-card owl-theme overflow-hidden nav-none">
-                            <div class="item">
-                                <div class="card w200 d-block border-0 shadow-xss rounded-xxl overflow-hidden mb-3 me-2 mt-3">
-                                    <div class="card-body position-relative h100 bg-image-cover bg-image-center" style="background-image: url(../../images/u-bg.jpg);"></div>
-                                    <div class="card-body d-block w-100 ps-4 pe-4 pb-4 text-center">
-                                        <figure class="avatar ms-auto me-auto mb-0 mt--6 position-relative w75 z-index-1"><img src="~/images/user-11.png" alt="image" class="float-right p-1 bg-white rounded-circle w-100"></figure>
-                                        <div class="clearfix"></div>
-                                        <h4 class="fw-700 font-xsss mt-2 mb-1">Aliqa Macale </h4>
-                                        <p class="fw-500 font-xsssss text-grey-500 mt-0 mb-2">support@gmail.com</p>
-                                        <span class="live-tag mt-2 mb-0 bg-danger p-2 z-index-1 rounded-3 text-white font-xsssss text-uppersace fw-700 ls-3">LIVE</span>
-                                        <div class="clearfix mb-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="card w200 d-block border-0 shadow-xss rounded-xxl overflow-hidden mb-3 me-2 mt-3">
-                                    <div class="card-body position-relative h100 bg-image-cover bg-image-center" style="background-image: url(../../images/s-2.jpg);"></div>
-                                    <div class="card-body d-block w-100 ps-4 pe-4 pb-4 text-center">
-                                        <figure class="avatar ms-auto me-auto mb-0 mt--6 position-relative w75 z-index-1"><img src="~/images/user-2.png" alt="image" class="float-right p-1 bg-white rounded-circle w-100"></figure>
-                                        <div class="clearfix"></div>
-                                        <h4 class="fw-700 font-xsss mt-2 mb-1">Seary Victor </h4>
-                                        <p class="fw-500 font-xsssss text-grey-500 mt-0 mb-2">support@gmail.com</p>
-                                        <span class="live-tag mt-2 mb-0 bg-danger p-2 z-index-1 rounded-3 text-white font-xsssss text-uppersace fw-700 ls-3">LIVE</span>
-                                        <div class="clearfix mb-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="card w200 d-block border-0 shadow-xss rounded-xxl overflow-hidden mb-3 me-2 mt-3">
-                                    <div class="card-body position-relative h100 bg-image-cover bg-image-center" style="background-image: url(../../images/s-6.jpg);"></div>
-                                    <div class="card-body d-block w-100 ps-4 pe-4 pb-4 text-center">
-                                        <figure class="avatar ms-auto me-auto mb-0 mt--6 position-relative w75 z-index-1"><img src="~/images/user-3.png" alt="image" class="float-right p-1 bg-white rounded-circle w-100"></figure>
-                                        <div class="clearfix"></div>
-                                        <h4 class="fw-700 font-xsss mt-2 mb-1">John Steere </h4>
-                                        <p class="fw-500 font-xsssss text-grey-500 mt-0 mb-2">support@gmail.com</p>
-                                        <span class="live-tag mt-2 mb-0 bg-danger p-2 z-index-1 rounded-3 text-white font-xsssss text-uppersace fw-700 ls-3">LIVE</span>
-                                        <div class="clearfix mb-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="card w200 d-block border-0 shadow-xss rounded-xxl overflow-hidden mb-3 me-2 mt-3">
-                                    <div class="card-body position-relative h100 bg-image-cover bg-image-center" style="background-image: url(../../images/bb-16.png);"></div>
-                                    <div class="card-body d-block w-100 ps-4 pe-4 pb-4 text-center">
-                                        <figure class="avatar ms-auto me-auto mb-0 mt--6 position-relative w75 z-index-1"><img src="~/images/user-4.png" alt="image" class="float-right p-1 bg-white rounded-circle w-100"></figure>
-                                        <div class="clearfix"></div>
-                                        <h4 class="fw-700 font-xsss mt-2 mb-1">Mohannad Zitoun </h4>
-                                        <p class="fw-500 font-xsssss text-grey-500 mt-0 mb-2">support@gmail.com</p>
-                                        <span class="live-tag mt-2 mb-0 bg-danger p-2 z-index-1 rounded-3 text-white font-xsssss text-uppersace fw-700 ls-3">LIVE</span>
-                                        <div class="clearfix mb-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="card w200 d-block border-0 shadow-xss rounded-xxl overflow-hidden mb-3 me-2 mt-3">
-                                    <div class="card-body position-relative h100 bg-image-cover bg-image-center" style="background-image: url(../../images/e-4.jpg);"></div>
-                                    <div class="card-body d-block w-100 ps-4 pe-4 pb-4 text-center">
-                                        <figure class="avatar ms-auto me-auto mb-0 mt--6 position-relative w75 z-index-1"><img src="~/images/user-7.png" alt="image" class="float-right p-1 bg-white rounded-circle w-100"></figure>
-                                        <div class="clearfix"></div>
-                                        <h4 class="fw-700 font-xsss mt-2 mb-1">Studio Express </h4>
-                                        <p class="fw-500 font-xsssss text-grey-500 mt-0 mb-2">support@gmail.com</p>
-                                        <span class="live-tag mt-2 mb-0 bg-danger p-2 z-index-1 rounded-3 text-white font-xsssss text-uppersace fw-700 ls-3">LIVE</span>
-                                        <div class="clearfix mb-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="card w200 d-block border-0 shadow-xss rounded-xxl overflow-hidden mb-3 me-2 mt-3">
-                                    <div class="card-body position-relative h100 bg-image-cover bg-image-center" style="background-image: url(../../images/coming-soon.png);"></div>
-                                    <div class="card-body d-block w-100 ps-4 pe-4 pb-4 text-center">
-                                        <figure class="avatar ms-auto me-auto mb-0 mt--6 position-relative w75 z-index-1"><img src="~/images/user-5.png" alt="image" class="float-right p-1 bg-white rounded-circle w-100"></figure>
-                                        <div class="clearfix"></div>
-                                        <h4 class="fw-700 font-xsss mt-2 mb-1">Hendrix Stamp </h4>
-                                        <p class="fw-500 font-xsssss text-grey-500 mt-0 mb-2">support@gmail.com</p>
-                                        <span class="live-tag mt-2 mb-0 bg-danger p-2 z-index-1 rounded-3 text-white font-xsssss text-uppersace fw-700 ls-3">LIVE</span>
-                                        <div class="clearfix mb-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="card w200 d-block border-0 shadow-xss rounded-xxl overflow-hidden mb-3 me-2 mt-3">
-                                    <div class="card-body position-relative h100 bg-image-cover bg-image-center" style="background-image: url(../../images/bb-9.jpg);"></div>
-                                    <div class="card-body d-block w-100 ps-4 pe-4 pb-4 text-center">
-                                        <figure class="avatar ms-auto me-auto mb-0 mt--6 position-relative w75 z-index-1"><img src="~/images/user-6.png" alt="image" class="float-right p-1 bg-white rounded-circle w-100"></figure>
-                                        <div class="clearfix"></div>
-                                        <h4 class="fw-700 font-xsss mt-2 mb-1">Mohannad Zitoun </h4>
-                                        <p class="fw-500 font-xsssss text-grey-500 mt-0 mb-2">support@gmail.com</p>
-                                        <span class="live-tag mt-2 mb-0 bg-danger p-2 z-index-1 rounded-3 text-white font-xsssss text-uppersace fw-700 ls-3">LIVE</span>
-                                        <div class="clearfix mb-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
                     <div class="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
                         <div class="card-body p-0 d-flex">
                             <figure class="avatar me-3"><img src="~/images/user-8.png" alt="image" class="shadow-sm rounded-circle w45"></figure>
@@ -670,6 +570,8 @@
                         </div>
                     </div>
 
+
+                    
                     <div class="card w-100 shadow-none bg-transparent bg-transparent-card border-0 p-0 mb-0">
                         <div class="owl-carousel category-card owl-theme overflow-hidden nav-none">
                             <div class="item">
@@ -806,9 +708,9 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
+
+
                 <div class="col-xl-4 col-xxl-3 col-lg-4 ps-lg-0">
                     <div class="card w-100 shadow-xss rounded-xxl border-0 mb-3">
                         <div class="card-body d-flex align-items-center p-4">

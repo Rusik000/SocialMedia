@@ -29,8 +29,7 @@ namespace SocialProject.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IUserService,UserManager>();
-            services.AddScoped<IUserDal, EfUserDal>();
+            
 
             services.AddScoped<IChatService, ChatManager>();
             services.AddScoped<IChatDal, EfChatDal>();

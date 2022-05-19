@@ -9,13 +9,15 @@ namespace SocialProject.Social.Entities.Concrete
     {
         public int CommentId { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public string Message { get; set; }
 
         public DateTime DatePost { get; set; }
 
         public int Like { get; set; }
+
+       
 
     }
 }

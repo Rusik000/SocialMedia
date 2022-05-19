@@ -14,8 +14,6 @@ namespace SocialProject.DataAccess.Concrete
             optionsBuilder.UseSqlServer(conn);
         }
 
-        public DbSet<User> Users { get; set; }
-
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
@@ -27,7 +25,5 @@ namespace SocialProject.DataAccess.Concrete
         public DbSet<Chat> Chats { get; set; }
 
         public DbSet<Story> Stories { get; set; }
-
-
     }
 }
