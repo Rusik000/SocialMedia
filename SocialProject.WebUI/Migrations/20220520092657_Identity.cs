@@ -39,7 +39,20 @@ namespace SocialProject.WebUI.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Firstname = table.Column<string>(nullable: true),
+                    Lastname = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    PostCode = table.Column<string>(nullable: true),
+                    Facebook = table.Column<string>(nullable: true),
+                    Twitter = table.Column<string>(nullable: true),
+                    Linkedin = table.Column<string>(nullable: true),
+                    Instagram = table.Column<string>(nullable: true),
+                    Github = table.Column<string>(nullable: true),
+                    Google = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -152,6 +165,30 @@ namespace SocialProject.WebUI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Post",
+                columns: table => new
+                {
+                    PostId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(nullable: true),
+                    Message = table.Column<string>(nullable: true),
+                    ImagePath = table.Column<string>(nullable: true),
+                    When = table.Column<DateTime>(nullable: false),
+                    LikeCount = table.Column<int>(nullable: false),
+                    CustomIdentityUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Post", x => x.PostId);
+                    table.ForeignKey(
+                        name: "FK_Post_AspNetUsers_CustomIdentityUserId",
+                        column: x => x.CustomIdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -190,6 +227,11 @@ namespace SocialProject.WebUI.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Post_CustomIdentityUserId",
+                table: "Post",
+                column: "CustomIdentityUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -208,6 +250,9 @@ namespace SocialProject.WebUI.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Post");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

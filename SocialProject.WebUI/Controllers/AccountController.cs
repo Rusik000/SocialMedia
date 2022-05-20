@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SocialProject.Business.Abstract;
-using SocialProject.Social.Entities.Concrete;
 using SocialProject.WebUI.Entities;
 using SocialProject.WebUI.Models;
 using System;

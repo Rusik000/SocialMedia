@@ -10,8 +10,8 @@ using SocialProject.WebUI.Entities;
 namespace SocialProject.WebUI.Migrations
 {
     [DbContext(typeof(CustomIdentityDbContext))]
-    [Migration("20220516100248_WithSocialAccountProperty")]
-    partial class WithSocialAccountProperty
+    [Migration("20220520131244_withPosts")]
+    partial class withPosts
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -256,6 +256,44 @@ namespace SocialProject.WebUI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommentCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CustomIdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("CustomIdentityUserId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("SocialProject.WebUI.Entities.CustomIdentityRole", null)
@@ -305,6 +343,13 @@ namespace SocialProject.WebUI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
+                {
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "CustomIdentityUser")
+                        .WithMany("Posts")
+                        .HasForeignKey("CustomIdentityUserId");
                 });
 #pragma warning restore 612, 618
         }

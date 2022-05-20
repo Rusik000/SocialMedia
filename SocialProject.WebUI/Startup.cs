@@ -5,11 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SocialProject.Business.Abstract;
-using SocialProject.Business.Concrete;
-using SocialProject.DataAccess.Abstract;
-using SocialProject.DataAccess.Concrete;
 using SocialProject.WebUI.Entities;
+using SocialProject.WebUI.Services.Abstract;
+using SocialProject.WebUI.Services.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,29 +27,8 @@ namespace SocialProject.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-
-            services.AddScoped<IChatService, ChatManager>();
-            services.AddScoped<IChatDal, EfChatDal>();
-
-            services.AddScoped<ICommentService, CommentManager>();
-            services.AddScoped<ICommentDal, EfCommentDal>();
-
-            services.AddScoped<IGroupService, GroupManager>();
-            services.AddScoped<IGroupDal, EfGroupDal>();
-
-            services.AddScoped<INotificationService, NotificationManager>();
-            services.AddScoped<INotificationDal, EfNotificationDal>();
-
-            services.AddScoped<IPostService, PostManager>();
-            services.AddScoped<IPostDal, EfPostDal>();
-
-
-            services.AddScoped<IStoryService, StoryManager>();
-            services.AddScoped<IStoryDal, EfStoryDal>();
-
-
             services.AddRazorPages();
+            services.AddScoped<IPostRepository,PostRepository>();
             services.AddDbContext<CustomIdentityDbContext>(
                 options => options
                 .UseSqlServer(@"Data Source=(localdb)\ProjectModels;Initial Catalog=SocialDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));

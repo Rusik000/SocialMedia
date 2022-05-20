@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SocialProject.Business.Abstract;
 using SocialProject.WebUI.Entities;
 using SocialProject.WebUI.Helpers;
 using SocialProject.WebUI.Models;
+using SocialProject.WebUI.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,29 +18,56 @@ namespace SocialProject.WebUI.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-       
         private IHttpContextAccessor _httpContext;
         private UserManager<CustomIdentityUser> _userManager;
         private readonly IWebHostEnvironment _webhost;
+        private IPostRepository _postRepository;
 
-        public HomeController(IHttpContextAccessor httpContext, UserManager<CustomIdentityUser> userManager, IWebHostEnvironment webhost)
+
+        public HomeController(IHttpContextAccessor httpContext, UserManager<CustomIdentityUser> userManager, IWebHostEnvironment webhost, IPostRepository postRepository)
         {
             _httpContext = httpContext;
             _userManager = userManager;
             _webhost = webhost;
+            _postRepository = postRepository;
         }
 
-        public IActionResult Index()
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = new CreatePostViewModel
+            {
+                Posts = _postRepository.GetAll().Reverse().ToList()
+            };
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Index(CreatePostViewModel model)
+        {
+            var user = await GetUser();
+            var helper = new ImageHelper(_webhost);
+            var image = await helper.SaveFile(model.File);
+            var post = new Post
+            {
+                UserId = user.Id,
+                CustomIdentityUser = user,
+                Message = model.Message,
+                ImagePath = image,
+                LikeCount = 0,
+                CommentCount = 0,
+                When = DateTime.Now,
+            };
+            _postRepository.Add(post);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Badge()
         {
             return View();
         }
-
-
 
         public IActionResult Story()
         {
@@ -51,7 +78,7 @@ namespace SocialProject.WebUI.Controllers
         {
             return View();
         }
-        public  async Task<IActionResult> UserPage()
+        public async Task<IActionResult> UserPage()
         {
             var user = await GetUser();
 

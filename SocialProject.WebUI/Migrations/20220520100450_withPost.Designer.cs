@@ -10,8 +10,8 @@ using SocialProject.WebUI.Entities;
 namespace SocialProject.WebUI.Migrations
 {
     [DbContext(typeof(CustomIdentityDbContext))]
-    [Migration("20220515205928_withOtherProperty")]
-    partial class withOtherProperty
+    [Migration("20220520100450_withPost")]
+    partial class withPost
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,13 +180,28 @@ namespace SocialProject.WebUI.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Facebook")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Github")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Google")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Instagram")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Lastname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Linkedin")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -218,6 +233,9 @@ namespace SocialProject.WebUI.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Twitter")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -236,6 +254,44 @@ namespace SocialProject.WebUI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommentCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CustomIdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LikeCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("CustomIdentityUserId");
+
+                    b.ToTable("Post");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -287,6 +343,13 @@ namespace SocialProject.WebUI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
+                {
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "CustomIdentityUser")
+                        .WithMany("Posts")
+                        .HasForeignKey("CustomIdentityUserId");
                 });
 #pragma warning restore 612, 618
         }

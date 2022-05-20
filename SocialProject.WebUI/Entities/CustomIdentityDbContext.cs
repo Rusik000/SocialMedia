@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SocialProject.Social.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,17 @@ namespace SocialProject.WebUI.Entities
         {
 
         }
+        public DbSet<Post> Posts { get; set; }
+
+    
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+         
+        
+
+
     }
 
 }
