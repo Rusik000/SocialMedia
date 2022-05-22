@@ -36,9 +36,13 @@ namespace SocialProject.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
+            var users = _userManager.Users.ToList();
+
             var model = new CreatePostViewModel
             {
-                Posts = _postRepository.GetAll().Reverse().ToList()
+                Posts = _postRepository.GetAll().Reverse().ToList(),
+                Users = users
             };
             return View(model);
         }
@@ -64,6 +68,7 @@ namespace SocialProject.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
+
         public IActionResult Badge()
         {
             return View();
@@ -78,6 +83,8 @@ namespace SocialProject.WebUI.Controllers
         {
             return View();
         }
+
+        [HttpGet]
         public async Task<IActionResult> UserPage()
         {
             var user = await GetUser();
@@ -87,10 +94,32 @@ namespace SocialProject.WebUI.Controllers
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
                 EmailAddress = user.Email,
-                ProfileImage = user.ImageUrl
+                ProfileImage = user.ImageUrl,
+                About = user.About,
+                Posts = _postRepository.GetAll().Where(u => u.UserId == user.Id).Reverse().ToList()
             };
-
             return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UserPage(UserPageViewModel model)
+        {
+            var user = await GetUser();
+            var helper = new ImageHelper(_webhost);
+            var image = await helper.SaveFile(model.File);
+            var post = new Post
+            {
+                UserId = user.Id,
+                CustomIdentityUser = user,
+                Message = model.Message,
+                ImagePath = image,
+                LikeCount = 0,
+                CommentCount = 0,
+                When = DateTime.Now,
+            };
+            _postRepository.Add(post);
+            return RedirectToAction("UserPage");
         }
 
         public IActionResult Email()
@@ -147,6 +176,7 @@ namespace SocialProject.WebUI.Controllers
                 Lastname = user.Lastname,
                 Email = user.Email,
                 Address = user.Address,
+                About = user.About,
                 City = user.City,
                 Country = user.Country,
                 Phone = user.PhoneNumber,
@@ -160,9 +190,7 @@ namespace SocialProject.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> AccountInformation(AccountInfoViewModel model)
         {
-
             var user = await GetUser();
-
             if (model.File != null)
             {
                 var Helper = new ImageHelper(_webhost);
@@ -173,6 +201,7 @@ namespace SocialProject.WebUI.Controllers
             user.Lastname = model.Lastname;
             user.Email = model.Email;
             user.Address = model.Address;
+            user.About = model.About;
             user.PhoneNumber = model.Phone;
             user.Country = model.Country;
             user.City = model.City;
@@ -281,6 +310,7 @@ namespace SocialProject.WebUI.Controllers
         {
             return View();
         }
+
 
 
         //methods

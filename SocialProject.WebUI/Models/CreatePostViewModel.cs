@@ -9,6 +9,8 @@ namespace SocialProject.WebUI.Models
     {
         public List<Post> Posts { get; set; }
 
+        public List<CustomIdentityUser> Users { get; set; }
+
         public string Message { get; set; }
         public string PostImage { get; set; }
 

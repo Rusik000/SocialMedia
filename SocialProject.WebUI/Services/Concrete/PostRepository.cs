@@ -1,4 +1,5 @@
 ﻿using SocialProject.WebUI.Entities;
+using SocialProject.WebUI.Models;
 using SocialProject.WebUI.Services.Abstract;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,5 +70,7 @@ namespace SocialProject.WebUI.Services.Concrete
             }
             _context.SaveChanges();
         }
+
     }
+        
 }

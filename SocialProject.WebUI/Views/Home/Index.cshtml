@@ -206,17 +206,32 @@
                     {
                         <div class="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-0">
                             <div class="card-body p-0 d-flex">
-                               
-                                    <figure class="avatar me-3">
-                                        <img src="~/images/Profile_Icon1.png" alt="image" class="shadow-sm rounded-circle w45">
-                                    </figure>
-                                
-                                   
-                                
-                                <h4 class="fw-700 text-grey-900 font-xssss mt-1">
-                                    Mustafayev Ruslan 
+
+                                @foreach (var user in Model.Users)
+                                {
+                                    @if (item.UserId == user.Id)
+                                    {
+                                        if (user.ImageUrl == null)
+                                        {
+                                            <figure class="avatar me-3">
+                                                <img src="~/images/Profile_Icon1.png" alt="image" class="shadow-sm rounded-circle w45">
+                                            </figure>
+                                        }
+                                        else
+                                        {
+                                            <figure class="avatar me-3">
+                                                <img src="~/images/@user.ImageUrl" alt="image" class="shadow-sm rounded-circle w45">
+                                            </figure>
+                                        }
+                                        <h4 class="fw-700 text-grey-900 font-xssss mt-1">
+                                    @user.Lastname @user.Firstname
                                     <span class="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500">@item.When.ToString()</span>
                                 </h4>
+                                    }
+
+                                }
+
+                                
                                 <a href="#" class="ms-auto">
                                     <i class="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i>
                                 </a>
