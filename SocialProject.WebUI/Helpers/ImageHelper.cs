@@ -14,12 +14,19 @@ namespace SocialProject.WebUI.Helpers
         }
         public async Task<string> SaveFile(IFormFile file)
         {
-            var saveimg = Path.Combine(_webhost.WebRootPath, "images", file.FileName);
-            using (var img = new FileStream(saveimg, FileMode.Create))
+            if (file != null)
             {
-                await file.CopyToAsync(img);
+                var saveimg = Path.Combine(_webhost.WebRootPath, "images", file.FileName);
+                using (var img = new FileStream(saveimg, FileMode.Create))
+                {
+                    await file.CopyToAsync(img);
+                }
+                return file.FileName.ToString();
             }
-            return file.FileName.ToString();
+            else
+            {
+                return null;
+            }
         }
     }
 }

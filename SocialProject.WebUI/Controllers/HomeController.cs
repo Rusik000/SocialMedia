@@ -60,6 +60,7 @@ namespace SocialProject.WebUI.Controllers
                 CustomIdentityUser = user,
                 Message = model.Message,
                 ImagePath = image,
+                VideoLink=model.VideoLink,
                 LikeCount = 0,
                 CommentCount = 0,
                 When = DateTime.Now,

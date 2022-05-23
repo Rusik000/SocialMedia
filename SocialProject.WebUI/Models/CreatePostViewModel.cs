@@ -14,6 +14,7 @@ namespace SocialProject.WebUI.Models
         public string Message { get; set; }
         public string PostImage { get; set; }
 
+        public string VideoLink { get; set; }
         public IFormFile File { get; set; }
 
     }
