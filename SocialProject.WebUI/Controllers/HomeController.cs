@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace SocialProject.WebUI.Controllers
 {
+    
     [Authorize]
     public class HomeController : Controller
     {
@@ -295,11 +296,27 @@ namespace SocialProject.WebUI.Controllers
         {
             return View();
         }
-        public IActionResult Member()
+
+        [HttpGet]
+        public async Task<IActionResult> Member()
         {
-            return View();
+            var users = _userManager.Users;
+            var user =  await GetUser();
+
+
+            var model = new FriendShipViewModel
+            {
+                Friends = users.Where(u=>u.Id!= user.Id).ToList(),
+                CurrentUser=user
+            };
+            return View(model);
         }
 
+        public async Task<IActionResult> FindSelectedUser(string id)
+        {
+            UserHelper.SelectedUser = _userManager.Users.FirstOrDefault(u => u.Id == id);
+            return RedirectToAction("Member","Home");
+        }
 
         public IActionResult OpenEmail()
         {
@@ -322,6 +339,15 @@ namespace SocialProject.WebUI.Controllers
             return user;
         }
 
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetFriends()
+        {
+            var user = await GetUser();
+            var users =  _userManager.Users.Where(u => u.Id != user.Id).ToList();
+            return Ok(users);
+        }
 
 
 

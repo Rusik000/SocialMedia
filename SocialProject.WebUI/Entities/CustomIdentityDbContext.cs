@@ -15,14 +15,25 @@ namespace SocialProject.WebUI.Entities
 
         }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<FriendShip> FriendShips { get; set; }
 
-    
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<FriendShip>()
+                .HasOne(fs => fs.Sender)
+                .WithMany(u => u.SenderUsers)
+                .HasForeignKey(fs => fs.SenderId);
+
+            builder.Entity<FriendShip>()
+                .HasOne(fs => fs.Friend)
+                .WithMany(u => u.FriendUsers)
+                .HasForeignKey(fs => fs.FriendId);
+
+
+
         }
-         
-        
 
 
     }

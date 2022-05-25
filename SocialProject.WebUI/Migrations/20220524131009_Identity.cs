@@ -45,6 +45,7 @@ namespace SocialProject.WebUI.Migrations
                     Lastname = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
+                    About = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     PostCode = table.Column<string>(nullable: true),
                     Facebook = table.Column<string>(nullable: true),
@@ -166,23 +167,51 @@ namespace SocialProject.WebUI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Post",
+                name: "FriendShips",
+                columns: table => new
+                {
+                    FriendShipId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SenderId = table.Column<string>(nullable: true),
+                    FriendId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FriendShips", x => x.FriendShipId);
+                    table.ForeignKey(
+                        name: "FK_FriendShips_AspNetUsers_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FriendShips_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
                 columns: table => new
                 {
                     PostId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: true),
                     Message = table.Column<string>(nullable: true),
                     ImagePath = table.Column<string>(nullable: true),
-                    When = table.Column<DateTime>(nullable: false),
+                    VideoLink = table.Column<string>(nullable: true),
                     LikeCount = table.Column<int>(nullable: false),
+                    CommentCount = table.Column<int>(nullable: false),
+                    When = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
                     CustomIdentityUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Post", x => x.PostId);
+                    table.PrimaryKey("PK_Posts", x => x.PostId);
                     table.ForeignKey(
-                        name: "FK_Post_AspNetUsers_CustomIdentityUserId",
+                        name: "FK_Posts_AspNetUsers_CustomIdentityUserId",
                         column: x => x.CustomIdentityUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -229,8 +258,18 @@ namespace SocialProject.WebUI.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Post_CustomIdentityUserId",
-                table: "Post",
+                name: "IX_FriendShips_FriendId",
+                table: "FriendShips",
+                column: "FriendId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FriendShips_SenderId",
+                table: "FriendShips",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_CustomIdentityUserId",
+                table: "Posts",
                 column: "CustomIdentityUserId");
         }
 
@@ -252,7 +291,10 @@ namespace SocialProject.WebUI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Post");
+                name: "FriendShips");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

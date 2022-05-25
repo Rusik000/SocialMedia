@@ -12,6 +12,9 @@ namespace SocialProject.WebUI.Entities
         public CustomIdentityUser()
         {
             Posts = new List<Post>();
+            SenderUsers = new List<FriendShip>();
+            FriendUsers = new List<FriendShip>();
+           
         }
         public string ImageUrl { get; set; }
 
@@ -39,9 +42,10 @@ namespace SocialProject.WebUI.Entities
 
         public string Google { get; set; }
 
-        public  ICollection<Post> Posts { get; set; }
+        public ICollection<Post> Posts { get; set; }
 
-
+        public virtual ICollection<FriendShip> SenderUsers { get; set; }
+        public virtual ICollection<FriendShip> FriendUsers { get; set; }
 
     }
 }

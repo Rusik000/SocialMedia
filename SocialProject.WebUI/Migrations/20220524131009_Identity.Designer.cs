@@ -10,7 +10,7 @@ using SocialProject.WebUI.Entities;
 namespace SocialProject.WebUI.Migrations
 {
     [DbContext(typeof(CustomIdentityDbContext))]
-    [Migration("20220520092657_Identity")]
+    [Migration("20220524131009_Identity")]
     partial class Identity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,6 +157,9 @@ namespace SocialProject.WebUI.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("About")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
@@ -256,12 +259,37 @@ namespace SocialProject.WebUI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SocialProject.WebUI.Entities.FriendShip", b =>
+                {
+                    b.Property<int>("FriendShipId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FriendShipId");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("FriendShips");
+                });
+
             modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommentCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("CustomIdentityUserId")
                         .HasColumnType("nvarchar(450)");
@@ -278,6 +306,9 @@ namespace SocialProject.WebUI.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("VideoLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("When")
                         .HasColumnType("datetime2");
 
@@ -285,7 +316,7 @@ namespace SocialProject.WebUI.Migrations
 
                     b.HasIndex("CustomIdentityUserId");
 
-                    b.ToTable("Post");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -339,9 +370,20 @@ namespace SocialProject.WebUI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SocialProject.WebUI.Entities.FriendShip", b =>
+                {
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "Friend")
+                        .WithMany("FriendUsers")
+                        .HasForeignKey("FriendId");
+
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "Sender")
+                        .WithMany("SenderUsers")
+                        .HasForeignKey("SenderId");
+                });
+
             modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
                 {
-                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", null)
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "CustomIdentityUser")
                         .WithMany("Posts")
                         .HasForeignKey("CustomIdentityUserId");
                 });

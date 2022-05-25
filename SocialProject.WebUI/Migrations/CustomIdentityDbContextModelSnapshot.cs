@@ -257,6 +257,31 @@ namespace SocialProject.WebUI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SocialProject.WebUI.Entities.FriendShip", b =>
+                {
+                    b.Property<int>("FriendShipId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FriendShipId");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("FriendShips");
+                });
+
             modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
                 {
                     b.Property<int>("PostId")
@@ -344,6 +369,17 @@ namespace SocialProject.WebUI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SocialProject.WebUI.Entities.FriendShip", b =>
+                {
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "Friend")
+                        .WithMany("FriendUsers")
+                        .HasForeignKey("FriendId");
+
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "Sender")
+                        .WithMany("SenderUsers")
+                        .HasForeignKey("SenderId");
                 });
 
             modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
