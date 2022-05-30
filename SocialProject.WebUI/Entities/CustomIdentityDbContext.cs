@@ -31,8 +31,6 @@ namespace SocialProject.WebUI.Entities
                 .WithMany(u => u.FriendUsers)
                 .HasForeignKey(fs => fs.FriendId);
 
-
-
         }
 
 

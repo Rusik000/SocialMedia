@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace SocialProject.WebUI.Controllers
 {
-    
+
     [Authorize]
     public class HomeController : Controller
     {
@@ -23,14 +23,16 @@ namespace SocialProject.WebUI.Controllers
         private UserManager<CustomIdentityUser> _userManager;
         private readonly IWebHostEnvironment _webhost;
         private IPostRepository _postRepository;
+        private IFriendshipRepository _friendshipRepository;
 
 
-        public HomeController(IHttpContextAccessor httpContext, UserManager<CustomIdentityUser> userManager, IWebHostEnvironment webhost, IPostRepository postRepository)
+        public HomeController(IHttpContextAccessor httpContext, UserManager<CustomIdentityUser> userManager, IWebHostEnvironment webhost, IPostRepository postRepository, IFriendshipRepository friendshipRepository)
         {
             _httpContext = httpContext;
             _userManager = userManager;
             _webhost = webhost;
             _postRepository = postRepository;
+            _friendshipRepository = friendshipRepository;
         }
 
 
@@ -39,11 +41,14 @@ namespace SocialProject.WebUI.Controllers
         {
 
             var users = _userManager.Users.ToList();
-
+            var user = await GetUser();
             var model = new CreatePostViewModel
             {
                 Posts = _postRepository.GetAll().Reverse().ToList(),
-                Users = users
+                FriendShips = _friendshipRepository.GetAll().ToList(),
+                Users = users,
+                CurrentUser = user
+
             };
             return View(model);
         }
@@ -61,7 +66,7 @@ namespace SocialProject.WebUI.Controllers
                 CustomIdentityUser = user,
                 Message = model.Message,
                 ImagePath = image,
-                VideoLink=model.VideoLink,
+                VideoLink = model.VideoLink,
                 LikeCount = 0,
                 CommentCount = 0,
                 When = DateTime.Now,
@@ -301,21 +306,33 @@ namespace SocialProject.WebUI.Controllers
         public async Task<IActionResult> Member()
         {
             var users = _userManager.Users;
-            var user =  await GetUser();
+            var user = await GetUser();
+            var friendShips = _friendshipRepository.GetAll();
 
 
             var model = new FriendShipViewModel
             {
-                Friends = users.Where(u=>u.Id!= user.Id).ToList(),
-                CurrentUser=user
+                Friends = users.Where(u => u.Id != user.Id).ToList(),
+                CurrentUser = user,
+                FriendShips = friendShips.ToList()
             };
             return View(model);
         }
 
         public async Task<IActionResult> FindSelectedUser(string id)
         {
-            UserHelper.SelectedUser = _userManager.Users.FirstOrDefault(u => u.Id == id);
-            return RedirectToAction("Member","Home");
+            var friendUser = _userManager.Users.FirstOrDefault(u => u.Id == id);
+            var currentUser = await GetUser();
+
+            var Friendship = new FriendShip
+            {
+                FriendId = friendUser.Id,
+                SenderId = currentUser.Id,
+                Accepted = false
+            };
+            _friendshipRepository.Add(Friendship);
+
+            return RedirectToAction("Member", "Home");
         }
 
         public IActionResult OpenEmail()
@@ -339,18 +356,44 @@ namespace SocialProject.WebUI.Controllers
             return user;
         }
 
-
-
         [HttpGet]
         public async Task<IActionResult> GetFriends()
         {
             var user = await GetUser();
-            var users =  _userManager.Users.Where(u => u.Id != user.Id).ToList();
+            var users = _userManager.Users.Where(u => u.Id != user.Id).ToList();
             return Ok(users);
         }
 
 
 
+        public async Task<IActionResult> ConfirmUser(string id)
+        {
+            var friendShip = _friendshipRepository.GetAll();
+            var user = await GetUser();
+            foreach (var item in friendShip)
+            {
+                if (item.SenderId == id && item.FriendId == user.Id && item.Accepted == false)
+                {
+                    item.Accepted = true;
+                    _friendshipRepository.Update(item);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
 
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var friendShip = _friendshipRepository.GetAll();
+            var user = await GetUser();
+            foreach (var item in friendShip)
+            {
+                if (item.SenderId == user.Id && item.FriendId == id && item.Accepted == false)
+                {
+                    _friendshipRepository.Delete(item.FriendShipId);
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

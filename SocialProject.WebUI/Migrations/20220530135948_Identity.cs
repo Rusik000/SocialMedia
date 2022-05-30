@@ -173,7 +173,8 @@ namespace SocialProject.WebUI.Migrations
                     FriendShipId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SenderId = table.Column<string>(nullable: true),
-                    FriendId = table.Column<string>(nullable: true)
+                    FriendId = table.Column<string>(nullable: true),
+                    Accepted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -29,16 +29,14 @@ namespace SocialProject.WebUI
         {
             services.AddRazorPages();
             services.AddScoped<IPostRepository,PostRepository>();
+            services.AddScoped<IFriendshipRepository,FriendshipRepository>();
             services.AddDbContext<CustomIdentityDbContext>(
                 options => options
-                .UseSqlServer(@"Data Source=(localdb)\ProjectModels;Initial Catalog=SocialDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+                .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SocialDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             services.AddIdentity<CustomIdentityUser, CustomIdentityRole>()
                 .AddEntityFrameworkStores<CustomIdentityDbContext>()
-                .AddDefaultTokenProviders();
-
-            
-
+                .AddDefaultTokenProviders();          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
