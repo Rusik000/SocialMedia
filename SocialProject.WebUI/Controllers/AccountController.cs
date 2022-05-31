@@ -35,14 +35,14 @@ namespace SocialProject.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult LogIn(LoginViewModel loginViewModel)
+        public async Task<IActionResult> LogIn(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
                 var result = _signInManager.PasswordSignInAsync(loginViewModel.Username,
                     loginViewModel.Password, loginViewModel.RememberMe, false).Result;
                 if (result.Succeeded)
-                {
+                {                  
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Invalid Login");
@@ -94,8 +94,9 @@ namespace SocialProject.WebUI.Controllers
             return View(registerViewModel);
         }
 
-        public IActionResult LogOff()
+        public async Task<IActionResult> LogOff()
         {
+            
             _signInManager.SignOutAsync().Wait();
             return RedirectToAction("LogIn");
         }
@@ -122,6 +123,13 @@ namespace SocialProject.WebUI.Controllers
             }
             return View(model);
 
+        }
+
+        public async Task<CustomIdentityUser> GetUser()
+        {
+            var userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            return user;
         }
     }
 }

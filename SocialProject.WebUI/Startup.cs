@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialProject.WebUI.Entities;
+using SocialProject.WebUI.Hubs;
 using SocialProject.WebUI.Services.Abstract;
 using SocialProject.WebUI.Services.Concrete;
 using System;
@@ -28,6 +29,7 @@ namespace SocialProject.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddSignalR();
             services.AddScoped<IPostRepository,PostRepository>();
             services.AddScoped<IFriendshipRepository,FriendshipRepository>();
             services.AddDbContext<CustomIdentityDbContext>(
@@ -63,6 +65,7 @@ namespace SocialProject.WebUI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("Default", "{controller=Account}/{action=LogIn}/{id?}");
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }

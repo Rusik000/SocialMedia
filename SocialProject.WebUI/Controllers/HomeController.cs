@@ -40,16 +40,21 @@ namespace SocialProject.WebUI.Controllers
         public async Task<IActionResult> Index()
         {
 
+
             var users = _userManager.Users.ToList();
             var user = await GetUser();
+
+            user.IsOnline = true;
+            await _userManager.UpdateAsync(user);
+
             var model = new CreatePostViewModel
             {
                 Posts = _postRepository.GetAll().Reverse().ToList(),
                 FriendShips = _friendshipRepository.GetAll().ToList(),
                 Users = users,
                 CurrentUser = user
-
             };
+
             return View(model);
         }
 
@@ -308,7 +313,7 @@ namespace SocialProject.WebUI.Controllers
             var users = _userManager.Users;
             var user = await GetUser();
             var friendShips = _friendshipRepository.GetAll();
-
+            
 
             var model = new FriendShipViewModel
             {
@@ -316,6 +321,7 @@ namespace SocialProject.WebUI.Controllers
                 CurrentUser = user,
                 FriendShips = friendShips.ToList()
             };
+            
             return View(model);
         }
 

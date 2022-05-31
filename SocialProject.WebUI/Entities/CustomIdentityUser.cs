@@ -14,6 +14,7 @@ namespace SocialProject.WebUI.Entities
             Posts = new List<Post>();
             SenderUsers = new List<FriendShip>();
             FriendUsers = new List<FriendShip>();
+            Messages= new List<Message>();
            
         }
         public string ImageUrl { get; set; }
@@ -46,6 +47,10 @@ namespace SocialProject.WebUI.Entities
 
         public virtual ICollection<FriendShip> SenderUsers { get; set; }
         public virtual ICollection<FriendShip> FriendUsers { get; set; }
+
+        public virtual ICollection<Message> Messages { get; set; }
+
+        public bool IsOnline { get; set; }
 
     }
 }
