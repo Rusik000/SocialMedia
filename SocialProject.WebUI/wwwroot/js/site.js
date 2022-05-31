@@ -2,7 +2,7 @@
     setInterval(function () {
 
         $.ajax({
-            url: "/Home/GetAllActiveUsers",
+            url: "/Home/GetActiveUsers",
             method: "GET",
             success: function (data) {
                 let content = "";
@@ -11,10 +11,9 @@
                     let item = "";
                     if (data[i].isOnline == true) {
 
-
                         item = `<li class="bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center">
                                             <figure class="avatar float-left mb-0 me-2">
-                                                <img src="~/images/${data[i].imageUrl}" alt="image" class="w35">
+                                                <img src="/images/${data[i].imageUrl}" alt="image" class="w35">
                                             </figure>
 
                                             <h3 class="fw-700 mb-0 mt-0">
@@ -26,7 +25,7 @@
                     else {
                         item = `<li class="bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center">
                                             <figure class="avatar float-left mb-0 me-2">
-                                                <img src="~/images/${data[i].imageUrl}" alt="image" class="w35">
+                                                <img src="/images/${data[i].imageUrl}" alt="image" class="w35">
                                             </figure>
 
                                             <h3 class="fw-700 mb-0 mt-0">

@@ -313,7 +313,7 @@ namespace SocialProject.WebUI.Controllers
             var users = _userManager.Users;
             var user = await GetUser();
             var friendShips = _friendshipRepository.GetAll();
-            
+
 
             var model = new FriendShipViewModel
             {
@@ -321,7 +321,7 @@ namespace SocialProject.WebUI.Controllers
                 CurrentUser = user,
                 FriendShips = friendShips.ToList()
             };
-            
+
             return View(model);
         }
 
@@ -371,6 +371,18 @@ namespace SocialProject.WebUI.Controllers
         }
 
 
+
+        public async Task<IActionResult> GetActiveUsers()
+        {
+
+            var users = _userManager.Users;
+
+            var currentUser = await GetUser();
+
+
+            var Friends = users.Where(u => u.Id != currentUser.Id).ToList();
+            return Ok(Friends);
+        }
 
         public async Task<IActionResult> ConfirmUser(string id)
         {

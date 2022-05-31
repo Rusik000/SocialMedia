@@ -96,7 +96,9 @@ namespace SocialProject.WebUI.Controllers
 
         public async Task<IActionResult> LogOff()
         {
-            
+            var user = await GetUser();
+            user.IsOnline = false;
+            await _userManager.UpdateAsync(user);
             _signInManager.SignOutAsync().Wait();
             return RedirectToAction("LogIn");
         }
