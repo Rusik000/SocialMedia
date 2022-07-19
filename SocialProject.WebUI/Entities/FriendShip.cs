@@ -13,5 +13,7 @@ namespace SocialProject.WebUI.Entities
         public virtual CustomIdentityUser Friend { get; set; }
         public bool Accepted { get; set; }
 
+
+
     }
 }

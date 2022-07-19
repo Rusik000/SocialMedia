@@ -10,8 +10,8 @@ using SocialProject.WebUI.Entities;
 namespace SocialProject.WebUI.Migrations
 {
     [DbContext(typeof(CustomIdentityDbContext))]
-    [Migration("20220531053302_Identity")]
-    partial class Identity
+    [Migration("20220719214832_withoutFriends")]
+    partial class withoutFriends
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -201,6 +201,9 @@ namespace SocialProject.WebUI.Migrations
                     b.Property<string>("Instagram")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsOnline")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Lastname")
                         .HasColumnType("nvarchar(max)");
 
@@ -282,6 +285,37 @@ namespace SocialProject.WebUI.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("FriendShips");
+                });
+
+            modelBuilder.Entity("SocialProject.WebUI.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CustomIdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomIdentityUserId");
+
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>
@@ -382,6 +416,13 @@ namespace SocialProject.WebUI.Migrations
                     b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "Sender")
                         .WithMany("SenderUsers")
                         .HasForeignKey("SenderId");
+                });
+
+            modelBuilder.Entity("SocialProject.WebUI.Entities.Message", b =>
+                {
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", "CustomIdentityUser")
+                        .WithMany("Messages")
+                        .HasForeignKey("CustomIdentityUserId");
                 });
 
             modelBuilder.Entity("SocialProject.WebUI.Entities.Post", b =>

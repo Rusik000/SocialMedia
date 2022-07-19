@@ -334,8 +334,11 @@ namespace SocialProject.WebUI.Controllers
             {
                 FriendId = friendUser.Id,
                 SenderId = currentUser.Id,
+                Sender = currentUser,
+                Friend = friendUser,
                 Accepted = false
             };
+
             _friendshipRepository.Add(Friendship);
 
             return RedirectToAction("Member", "Home");
@@ -388,11 +391,13 @@ namespace SocialProject.WebUI.Controllers
         {
             var friendShip = _friendshipRepository.GetAll();
             var user = await GetUser();
+            var friend = await _userManager.FindByIdAsync(id);
             foreach (var item in friendShip)
             {
                 if (item.SenderId == id && item.FriendId == user.Id && item.Accepted == false)
                 {
                     item.Accepted = true;
+                   
                     _friendshipRepository.Update(item);
                 }
             }

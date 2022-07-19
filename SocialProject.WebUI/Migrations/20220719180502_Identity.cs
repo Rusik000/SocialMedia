@@ -53,7 +53,8 @@ namespace SocialProject.WebUI.Migrations
                     Linkedin = table.Column<string>(nullable: true),
                     Instagram = table.Column<string>(nullable: true),
                     Github = table.Column<string>(nullable: true),
-                    Google = table.Column<string>(nullable: true)
+                    Google = table.Column<string>(nullable: true),
+                    IsOnline = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -194,6 +195,29 @@ namespace SocialProject.WebUI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(nullable: false),
+                    Text = table.Column<string>(nullable: false),
+                    When = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    CustomIdentityUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Message_AspNetUsers_CustomIdentityUserId",
+                        column: x => x.CustomIdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -269,6 +293,11 @@ namespace SocialProject.WebUI.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Message_CustomIdentityUserId",
+                table: "Message",
+                column: "CustomIdentityUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_CustomIdentityUserId",
                 table: "Posts",
                 column: "CustomIdentityUserId");
@@ -293,6 +322,9 @@ namespace SocialProject.WebUI.Migrations
 
             migrationBuilder.DropTable(
                 name: "FriendShips");
+
+            migrationBuilder.DropTable(
+                name: "Message");
 
             migrationBuilder.DropTable(
                 name: "Posts");

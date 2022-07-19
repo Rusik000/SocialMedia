@@ -10,8 +10,8 @@ using SocialProject.WebUI.Entities;
 namespace SocialProject.WebUI.Migrations
 {
     [DbContext(typeof(CustomIdentityDbContext))]
-    [Migration("20220531060845_withMessage")]
-    partial class withMessage
+    [Migration("20220719212819_addedFriends")]
+    partial class addedFriends
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -176,6 +176,9 @@ namespace SocialProject.WebUI.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CustomIdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -250,6 +253,8 @@ namespace SocialProject.WebUI.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomIdentityUserId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -405,6 +410,13 @@ namespace SocialProject.WebUI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SocialProject.WebUI.Entities.CustomIdentityUser", b =>
+                {
+                    b.HasOne("SocialProject.WebUI.Entities.CustomIdentityUser", null)
+                        .WithMany("Friends")
+                        .HasForeignKey("CustomIdentityUserId");
                 });
 
             modelBuilder.Entity("SocialProject.WebUI.Entities.FriendShip", b =>
